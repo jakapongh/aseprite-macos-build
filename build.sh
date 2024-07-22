@@ -1,15 +1,15 @@
 #!/bin/bash
 #
 #  What does it do?
-#    1. Build the latest development version of Aseprite from source for macOS
+#    1. Builds the latest development version of Aseprite from source for macOS
 #    2. Bundle it to an executable Aseprite.app
 #    3. Cleans up all the source files after building
 #  
 #  Does it work?
-#    - Last updated and tested on 22 Jul 2024.
-#    - Tested to work with macOS 15.0 Sequoia Beta 3, Apple M2.
-#    - This is a Universal build for Intel-based and M-series (arm64) Macs.
-#    - It should work on both.
+#    - Last updated and tested on 22 Jul 2024
+#    - Tested to work with macOS 15.0 Sequoia Beta 3, Apple M2
+#    - This is a Universal build for Intel-based and M-series (arm64) Macs
+#    - It should work on both Intel and M-series Macs
 #  
 #  How do I use it?
 #    1. Install Homebrew (from https://brew.sh)
@@ -27,7 +27,7 @@
 #    of allangarcia's script.
 #    https://gist.github.com/allangarcia/938b052a7d55d1652052e4259364260b
 #
-#  Disclaimer:
+#  Disclaimer
 #     This software is provided "as is" without warranty of any kind, express or implied.
 #     
 #     The script enables users to compile Aseprite from source for personal use and to
