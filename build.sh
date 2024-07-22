@@ -74,7 +74,7 @@ show_build_finised_message() {
   echo "\033[0;32m[12/12] Build script finished\!\n"
   echo "---------------- BUILD FINISHED ----------------"
   echo " Find your Aseprite.app at:"
-  echo " $HOME/Developer/Aseprite/"
+  echo " $WORKING_DIRECTORY"
   echo "------------------------------------------------"
   echo -e "\033[0m"
 }
