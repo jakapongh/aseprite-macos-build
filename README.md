@@ -1,4 +1,4 @@
-## This script will
+## The build.sh script will
    1. Build the latest development version of Aseprite from source for macOS
    2. Bundle it to an executable Asperite.app
    3. Cleans up all the source files after building
