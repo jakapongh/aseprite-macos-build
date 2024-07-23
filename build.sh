@@ -47,6 +47,8 @@
 #     
 #
 
+
+
 # Where the build will occur, and where the compiled .app file will be stored
 WORKING_DIRECTORY="$HOME/Developer/Aseprite"
 
@@ -55,23 +57,37 @@ ASEPRITE_SOURCE_GIT_REPO_URL="https://github.com/aseprite/aseprite.git"
 ASEPRITE_TRIAL_DMG_URL="https://www.aseprite.org/downloads/trial/Aseprite-v1.3.6-trial-macOS.dmg"
 SKIA_M102_URL="https://github.com/aseprite/skia/releases/download/m102-861e4743af/Skia-macOS-Release-arm64.zip"
 
-# XCode SDK location for CMake
+# Delete source files after compilation
+# (default: true)
+DELETE_SOURCE_AFTER_COMPILATION=true
+
+# Xcode SDK location for CMake
 DCMAKE_OSX_SYSROOT_PATH="/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk"
 
 # Minimum version of macOS that should be supported
 # (default: macOS 11.0 Big Sur or later versions is supported)
 DCMAKE_OSX_DEPLOYMENT_TARGET="11.0"
 
+
+
+
+
+CURRENT_STEP=1
+TOTAL_STEPS=12
+
 # For stylised status text
 script_echo() {
-  echo -e "\033[33m${1}\033[0m"
+  echo -e "\033[33m[${CURRENT_STEP}/${TOTAL_STEPS}] ${1}\033[0m"
+  ((CURRENT_STEP++))
 }
 
 show_build_finised_message() {
   # Remove build files after replacing original .app with build
-  rm -rf ./build
+  if $DELETE_SOURCE_AFTER_COMPILATION; then
+    rm -rf ./build
+  fi
 
-  echo "\033[0;32m[12/12] Build script finished\!\n"
+  echo "\033[0;32m[${CURRENT_STEP}/${TOTAL_STEPS}] Build script finished\!\n"
   echo "---------------- BUILD FINISHED ----------------"
   echo " Find your Aseprite.app at:"
   echo " $WORKING_DIRECTORY"
@@ -80,35 +96,39 @@ show_build_finised_message() {
 }
 
 # Install tools required with brew: cmake & ninja
-script_echo "[01/12] Updating brew and installing cmake & ninja"
+script_echo "Updating brew and installing cmake & ninja"
 brew update
 brew install cmake
 brew install ninja
 
 # Create the working directory if it doesn't exist
 if [ ! -d "$WORKING_DIRECTORY" ]; then
-  script_echo "[02/12] ${WORKING_DIRECTORY} doesn't exist. Creating it."
+  script_echo "${WORKING_DIRECTORY} doesn't exist. Creating it."
   mkdir -p "$WORKING_DIRECTORY"
 else
-  script_echo "[02/12] ${WORKING_DIRECTORY} already exists. Deleting it."
-  rm -rf "./Aseprite"
+  cd "$HOME"
+  script_echo "${WORKING_DIRECTORY} already exists. Deleting it."
+  rm -rf "{$WORKING_DIRECTORY}"
 fi
 
 cd "$WORKING_DIRECTORY"
 
 # Download Skia-m102, a required 2D graphics library
-script_echo "[03/12] Downloading skia_m102"
+script_echo "Downloading skia_m102"
 curl -# -o skia_m102.zip -L "$SKIA_M102_URL"
 
 # Unzip Skia and delete original Skia zip
-unzip skia_m102.zip -d skia_m102 && rm skia_m102.zip
+unzip skia_m102.zip -d skia_m102
+if $DELETE_SOURCE_AFTER_COMPILATION; then
+  rm skia_m102.zip
+fi
 
 # Clone latest Aseprite source from repository
-script_echo "[04/12] Cloning Aseprite source repository. This may take a while."
+script_echo "Cloning Aseprite source repository. This may take a while."
 git clone --recursive "$ASEPRITE_SOURCE_GIT_REPO_URL" ./repo
 
 # Compile Aseprite now that we have downloaded Skia-m102 and latest source
-script_echo "[05/12] Compiling Aseprite from source. This may take a while."
+script_echo "Compiling Aseprite from source. This may take a while."
 mkdir build
 cd build
 cmake \
@@ -127,31 +147,35 @@ ninja aseprite
 cd ../
 
 # Delete Skia and source repository after build finishes
-rm -rf ./skia_m102 ./repo
+if $DELETE_SOURCE_AFTER_COMPILATION; then
+  rm -rf ./skia_m102 ./repo
+fi
 
 # Bundle our build files into the trial .app
 # Extract .app from trial .dmg
-script_echo "[06/12] Downloading Aseprite original trial .dmg"
+script_echo "Downloading Aseprite original trial .dmg"
 mkdir ./bundle
 curl -# -o ./bundle/aseprite_trial.dmg -J "$ASEPRITE_TRIAL_DMG_URL"
-script_echo "[07/12] Mounting original trial dmg"
+script_echo "Mounting original trial .dmg"
 mkdir ./bundle/mount
 yes qy | hdiutil attach -quiet -nobrowse -noverify -noautoopen -mountpoint ./bundle/mount ./bundle/aseprite_trial.dmg
-script_echo "[08/12] Copying original trial app"
+script_echo "Copying original trial .app"
 
 # Copy trial .app into working directory
-cp -r ./bundle/mount/Aseprite.app .
-script_echo "[09/12] Unmounting dmg"
+cp -rf ./bundle/mount/Aseprite.app .
+script_echo "Unmounting .dmg"
 hdiutil detach ./bundle/mount -quiet
 
 # Remove original trial .app file after copying .app
-rm -rf ./bundle
+if $DELETE_SOURCE_AFTER_COMPILATION; then
+  rm -rf ./bundle
+fi
 
 # Replace original contents of trial .app with our build
-script_echo "[10/12] Removing original trial app contents"
+script_echo "Removing original trial .app contents"
 rm -rf Aseprite.app/Contents/MacOS/aseprite
 rm -rf Aseprite.app/Contents/Resources/data
-script_echo "[11/12] Copying build files to app contents"
+script_echo "Copying build files to .app contents"
 cp -r ./build/bin/aseprite Aseprite.app/Contents/MacOS/aseprite
 cp -r ./build/bin/data Aseprite.app/Contents/Resources/data
 
