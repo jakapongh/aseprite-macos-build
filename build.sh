@@ -54,7 +54,7 @@ WORKING_DIRECTORY="$HOME/Developer/Aseprite"
 
 # URLs for source files and dmg files required for build
 ASEPRITE_SOURCE_GIT_REPO_URL="https://github.com/aseprite/aseprite.git"
-ASEPRITE_TRIAL_DMG_URL="https://www.aseprite.org/downloads/trial/Aseprite-v1.3.6-trial-macOS.dmg"
+ASEPRITE_TRIAL_DMG_URL="https://www.aseprite.org/downloads/trial/Aseprite-v1.3.9.1-trial-macOS.dmg"
 SKIA_M102_URL="https://github.com/aseprite/skia/releases/download/m102-861e4743af/Skia-macOS-Release-arm64.zip"
 
 # Delete source files after compilation
