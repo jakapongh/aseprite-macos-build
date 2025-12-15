@@ -1,4 +1,4 @@
-# Build Aseprite from Source on macOS
+# Build Aseprite v1.3.16 from Source on macOS
 
 ### What does it do?
 1. Build the [development version of Aseprite v1.3.16](https://github.com/aseprite/aseprite) from source for macOS
