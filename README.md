@@ -1,24 +1,22 @@
 # Build Aseprite from Source on macOS
 
 ### What does it do?
-1. Build the latest [development version of Aseprite](https://github.com/aseprite/aseprite) from source for macOS
+1. Build the [development version of Aseprite v1.3.16](https://github.com/aseprite/aseprite) from source for macOS
 2. Bundle it to an executable Asperite.app
 3. Cleans up all the source files after building
 
-### Does it work?
-- Last updated and tested on 22 Jul 2024
-- Tested to work with macOS 15.0 Sequoia Beta 3, Apple M2
-- This is a Universal build for Intel-based and M-series (arm64) Macs
-- It should work on both Intel and M-series Macs
+- Last updated and tested on 15 Dec 2025 on macOS Tahoe 26.2.
+- This is a Universal build for Intel and M-series (arm64) Macs.
 
 ### How do I use it?
 1. Install Homebrew (from https://brew.sh)
 2. Install Xcode (from App Store)
-3. Copy and paste the contents of this script into Terminal (Command + C, Command + V)
-4. Press enter to run the script and start the build process
-5. Wait
+3. Save this script to a file (e.g., build.sh)
+4. Open Terminal and navigate to where you saved the file
+5. Run: chmod +x build.sh && ./build.sh
 5. At some point, you will be prompted to agree to the license. Press Q to continue.
-6. Done! You'll get your .app file.  
+6. Wait (compilation takes a while)
+7. Done! You'll get your .app file.  
    By default, you will find it in ~/Developer/Aseprite/  
    Then you can copy it to your ~/Applications/ folder. 
 
