@@ -9,12 +9,16 @@
 # - This is a Universal build for Intel and M-series (arm64) Macs.
 #  
 #  How do I use it?
-#    1. Install Homebrew (from https://brew.sh)
-#    2. Install Xcode (from App Store)
-#    3. Save this script to a file (e.g., build.sh)
-#    4. Open Terminal and navigate to where you saved the file
-#    5. Run: chmod +x aseprite.sh && ./aseprite.sh
-#    6. Wait (compilation takes a while)
+#  1. Install Homebrew (from https://brew.sh)
+#  2. Install Xcode (from App Store)
+#  3. Save this script to a file (e.g., build.sh)
+#  4. Open Terminal and navigate to where you saved the file
+#  5. Run: chmod +x build.sh && ./build.sh
+#  5. At some point, you will be prompted to agree to the license. Press Q to continue.
+#  6. Wait (compilation takes a while)
+#  7. Done! You'll get your .app file.  
+#     By default, you will find it in ~/Developer/Aseprite/  
+#     Then you can copy it to your ~/Applications/ folder. 
 #   
 #  Credits
 #    This is a modification of furashcka's script, which itself was a modification
